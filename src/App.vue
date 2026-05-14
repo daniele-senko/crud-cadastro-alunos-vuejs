@@ -46,35 +46,58 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'; // [cite: 127]
+import { ref } from 'vue';
 
-// Estado da lista e do formulário [cite: 128, 129, 130, 131]
 const alunos = ref([]);
 const mostrarForm = ref(false);
 
-// Controle de edição (null = cadastrando novo, número = editando) [cite: 95, 96, 133, 134]
 const editandoId = ref(null);
 
-// Campos do formulário [cite: 135-142]
 const nome = ref('');
 const matricula = ref('');
 const curso = ref('');
 const ativo = ref(true);
 
-// Funções base vazias (implementaremos a seguir) [cite: 143-147]
 function salvar() {
-  // Implementaremos no próximo passo
+  if (editandoId.value === null) {
+    const novoAluno = {
+      id: Date.now(),
+      nome: nome.value,
+      matricula: matricula.value,
+      curso: curso.value,
+      ativo: ativo.value
+    };
+    alunos.value.push(novoAluno);
+  } else {
+    const index = alunos.value.findIndex(a => a.id === editandoId.value);
+    
+    if (index !== -1) {
+      alunos.value[index].nome = nome.value;
+      alunos.value[index].matricula = matricula.value;
+      alunos.value[index].curso = curso.value;
+      alunos.value[index].ativo = ativo.value;
+    }
+  }
+
+  limpar();
+
+  function limpar() {
+  nome.value = '';
+  matricula.value = '';
+  curso.value = '';
+  ativo.value = true;
+  editandoId.value = null; 
 }
 
 function editar(a) {
-  // Implementaremos no próximo passo
+
 }
 
 function excluir(id) {
-  // Implementaremos no próximo passo
+
 }
 
 function limpar() {
-  // Implementaremos no próximo passo
+
 }
 </script>
